@@ -2,8 +2,19 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import App from '../App';
 
-test('renders learn react link', () => {
+const setUp = () => {
   const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
-});
+
+  return {
+    header: getByText(/register with us/i)
+  }
+}
+
+describe('App', () => {
+  it('should render the form component correctly', () => {
+    const { header } = setUp();
+
+    expect(header).toBeInTheDocument();
+  });
+
+})
