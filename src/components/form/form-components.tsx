@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { palette } from "utils/theme";
 
 export const Container = styled.div`

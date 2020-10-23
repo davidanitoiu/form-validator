@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "@emotion/styled";
 
 export const AppContainer = styled.div`
     background-color: #f9fafb;
