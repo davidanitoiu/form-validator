@@ -3,8 +3,22 @@ import userEvent from "@testing-library/user-event";
 import React from "react";
 import Form from "../Form";
 
+const handleChange = jest.fn();
+
 const setUp = () => {
-    const { getByLabelText } = render(<Form />);
+    const heading = 'TestHeading';
+    const handleSubmit = jest.fn();
+
+    const textFields = [
+        { name: 'username', type: 'text', label: 'Username', placeholder: 'Enter username', required: true, minLength: 3, onChange: handleChange, value: '' },
+    ];
+
+    const { getByLabelText } = render(
+        <Form
+            heading={heading}
+            textfields={textFields}
+            onSubmit={handleSubmit}
+        />);
 
     return getByLabelText(/username/i);
 }
@@ -28,11 +42,11 @@ describe('username', () => {
         expect(username).toHaveAttribute('type','text');
     })
 
-    it('should update correctly', async () => {
+    it('should update handle change events', async () => {
         const username = setUp();
 
         await userEvent.type(username,'bob dylan');
 
-        expect(username).toHaveValue('bob dylan');
+        expect(handleChange).toHaveBeenCalled();
     });
 })

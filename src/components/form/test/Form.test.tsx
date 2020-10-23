@@ -2,8 +2,23 @@ import { render } from '@testing-library/react';
 import React from "react";
 import Form from "../Form";
 
+const heading = 'TestHeading';
+const handleChange = jest.fn();
+const handleSubmit = jest.fn();
+
 const setUp = () => {
-    const { getByRole, container } = render(<Form />);
+    const textFields = [
+        { name: 'username', type: 'text', label: 'Username', placeholder: 'Enter username', required: true, minLength: 3, onChange: handleChange, value: '' },
+        { name: 'email', type: 'email', label: 'Email', placeholder: 'Enter email', required: true, onChange: handleChange },
+        { name: 'password', type: 'password', label: 'Password', placeholder: 'Enter password', required: true, minLength: 6, errorMessage: 'Passwords must match', onChange: handleChange },
+        { name: 'confirm', type: 'password', label: 'Confirm Password', placeholder: 'Enter password again', required: true, minLength: 6, errorMessage: 'Passwords must match', onChange: handleChange },
+    ];
+
+    const { getByRole, container } = render(<Form
+        heading={heading}
+        textfields={textFields}
+        onSubmit={handleSubmit}
+    />);
 
     return {
         heading: getByRole('heading'),

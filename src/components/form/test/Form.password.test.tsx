@@ -3,8 +3,22 @@ import userEvent from "@testing-library/user-event";
 import React from "react";
 import Form from "../Form";
 
+const handleChange = jest.fn();
+
 const setUp = () => {
-    const { getByLabelText } = render(<Form />);
+    const heading = 'TestHeading';
+    const handleSubmit = jest.fn();
+
+    const textFields = [
+        { name: 'password', type: 'password', label: 'Password', placeholder: 'Enter password', required: true, minLength: 6, errorMessage: 'Passwords must match', onChange: handleChange },
+    ];
+
+    const { getByLabelText } = render(
+        <Form
+            heading={heading}
+            textfields={textFields}
+            onSubmit={handleSubmit}
+        />);
 
     return getByLabelText('Password', { exact: true });
 }
@@ -28,12 +42,12 @@ describe('password', () => {
         expect(password).toHaveAttribute('type','password');
     })
 
-    it('should update correctly', async () => {
+    it('should handle change events', async () => {
         const password = setUp();
         const input = 'Ab123456'
 
         await userEvent.type(password,input);
 
-        expect(password).toHaveValue(input);
+        expect(handleChange).toHaveBeenCalled();
     });
 })
